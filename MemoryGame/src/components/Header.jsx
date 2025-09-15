@@ -1,7 +1,9 @@
 import { useState } from "react";
 
 function Header(
-    {count}
+    {count,
+    maxScore
+    }
 ){
     return(
         <div className="header">
@@ -11,7 +13,7 @@ function Header(
             </div>
             <div className="PointTracker">
                 <p>Current Score: {count}</p>
-                <p>Best Score: 0</p>
+                <p>Best Score: {maxScore}</p>
             </div>
         </div>
     )

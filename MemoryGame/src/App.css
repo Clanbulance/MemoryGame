@@ -1,116 +1,222 @@
+/* General App Styling */
+:root {
+  --background-dark: #121212;
+  --primary-surface: #1E1E1E;
+  --secondary-surface: #2A2A2A;
+  --primary-accent: #03DAC6;
+  --secondary-accent: #BB86FC;
+  --text-primary: #FFFFFF;
+  --text-secondary: #B3B3B3;
+}
+
+body {
+  margin: 0;
+  background-color: var(--background-dark);
+  /* Add a subtle radial gradient for depth */
+  background-image: radial-gradient(circle, #1f1f1f 1px, var(--background-dark) 1px);
+  background-size: 2rem 2rem;
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+
+
 #root {
-  max-width: 100vw;
-  max-height: 100vh;
+  max-width: 1200px;
+  min-height: 100vh; /* Use min-height instead of height */
+  box-sizing: border-box; /* Include padding in height calculation */
   margin: 0 auto;
-  text-align: center;min-height: 100vh;
-  padding: 0 1rem;
-
-  display: grid;
-
-  grid-template-rows: 20% 90%;         
-}
-
-.header{
-  color:blue;
-  grid-row: 1;
-  padding: 0 1rem;
-
+  padding: 1rem;
   display: flex;
-}
-.header .PointTracker{
-  display: flex;
-  grid-row: 1;
-
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  
+  align-items: center; /* Center content horizontally */
+  gap: 0.5rem;
+  padding-bottom: 0;
+  /* overflow: hidden; can be removed now */
+}
+
+/* Header Styling */
+.header {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: rgba(30, 30, 30, 0.8); /* Slightly transparent background */
+  backdrop-filter: blur(10px); /* Frosted glass effect */
+  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  border-radius: 12px; /* Increased border radius */
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column; /* Stack title and scores vertically */
+  align-items: center; /* Center items horizontally */
+  gap: 1rem; /* Add space between title and scores */
+  border: 1px solid rgba(187, 134, 252, 0.2); /* Subtle border */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Softer shadow for depth */
+}
+
+.header h1 {
+  color: var(--primary-accent);
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  margin: 0;
+}
+
+.header .PointTracker {
+  display: flex;
+  gap: 1.5rem; /* Adjusted gap */
+  text-align: center; /* Center text within each stat block */
+}
+
+/* New styles for individual score blocks */
+.header .PointTracker > div {
+  background-color: var(--background-dark);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--secondary-surface);
+  min-width: 80px;
+}
+
+.header .PointTracker h2 {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  margin: 0;
+  color: var(--text-secondary);
+  font-weight: normal; /* Lighter font weight */
 }
 
 .header .PointTracker p {
-  margin:0;
-  
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  margin: 0;
+  font-weight: bold;
+  color: var(--text-primary);
 }
 
-.header h1{
-  color:red;
-  font-size: clamp(1.5rem, 2.5vw, 4rem);
-}
-
-.header h2{
-  font-size: clamp(1rem, 1.5vw, 2rem);
-}
-
-.CardGrid{
-  border:1px solid black;
+/* Card Grid Styling */
+.CardGrid {
+  width: 100%; /* Ensure grid spans the full width */
   grid-row: 2;
-
   display: grid;
-  grid-template-columns: repeat(2,1fr);
-  gap:0.5rem;
-  
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
 }
 
-.card{
-  border:solid 1px red;
+/* Card Styling */
+.card {
+  background-color: var(--secondary-surface);
+  border: 1px solid transparent;
+  border-radius: 12px;
+  aspect-ratio: 1 / 1; /* Makes the card a square */
   display: flex;
   justify-content: center;
   align-items: center;
-
   padding: 0;
-
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  overflow: hidden; /* Ensures image corners are rounded */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative; /* Needed for loader positioning */
 }
 
-.card img{
-  width: 250px;
-  height: 250px;
-  border:1px solid red;
-
-}
-
-
-
-
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-
-
-
-
-
-
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Apply hover effect only on devices that can truly hover */
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    transform: scale(1.05);
+    border-color: var(--primary-accent);
+    box-shadow: 0 8px 16px rgba(3, 218, 198, 0.2);
   }
+}
+
+/* Add an active state for immediate feedback on tap/click */
+.card:active {
+  transform: scale(0.95);
+  transition: transform 0.05s ease-out; /* Make the press-down effect very fast */
+}
+
+.card:focus-visible {
+  transform: scale(1.05);
+  border-color: var(--primary-accent);
+  box-shadow: 0 8px 16px rgba(3, 218, 198, 0.2);
+  outline: none;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Prevents image distortion */
+  display: block;
+}
+
+
+/* --- NEW STYLES --- */
+
+/* Card Animations */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.card.shake {
+  animation: shake 0.5s ease-in-out;
+  border-color: #ff4136; /* Red border to indicate error */
+}
+
+/* Loading Spinner */
+@keyframes spin {
   to {
     transform: rotate(360deg);
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.loader {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--secondary-surface);
+  border-top-color: var(--primary-accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
 
-.card {
-  padding: 2em;
+/* Game Over Modal */
+.game-over-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-.read-the-docs {
-  color: #888;
+.game-over-modal {
+  background-color: var(--primary-surface);
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid var(--secondary-accent);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.game-over-modal h2 {
+  color: var(--primary-accent);
+  font-size: 2.5rem;
+  margin-top: 0;
+}
+
+/* General Button Style */
+.btn {
+  background-color: var(--primary-accent);
+  color: var(--background-dark);
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #02b8a2;
+  transform: scale(1.05);
 }
